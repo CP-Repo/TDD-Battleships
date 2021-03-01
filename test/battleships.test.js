@@ -45,6 +45,16 @@ test("addVessel will not add a vessel that intersects an existing vessel", () =>
     expect(battleships.addVessel(testState, newVessel)).toStrictEqual(outState)
 })
 
+test("fire on an unoccupied square will not change the state", () => {
+    const testState = new battleships.State()
+    const outState = new battleships.State()
+    const testVessel = new battleships.Vessel(["A1", "A2", "A3"])
+    outState.vessels.push(testVessel)
+    outState.coord.push("A4")
+    testState.vessels.push(testVessel)
+    expect(battleships.fire(testState, "A4")).toStrictEqual(outState)
+})
+
 test("fire on an occupied square will remove the coordinate from the vessel", () => {
     const testState = new battleships.State()
     const outState = new battleships.State()
@@ -53,4 +63,17 @@ test("fire on an occupied square will remove the coordinate from the vessel", ()
     outState.vessels.push(new battleships.Vessel(["A2", "A3"]))
     outState.coord.push("A1")
     expect(battleships.fire(testState, "A1")).toStrictEqual(outState)
+})
+
+test("firing on the last square of a vessel will remove it from the state", () => {
+    const testState = new battleships.State()
+    const outState = new battleships.State()
+    testState.vessels.push(new battleships.Vessel(["A1"]))
+    outState.coord.push("A1")
+    expect(battleships.fire(testState, "A1")).toStrictEqual(outState)
+})
+
+test("init creates a state and adds three vessels to it", () => {
+    const testState = battleships.init()
+    expect(testState.vessels.length).toEqual(3)
 })
