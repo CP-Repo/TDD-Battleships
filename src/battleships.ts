@@ -6,7 +6,7 @@ const rl = readline.createInterface({
 });
 
 export class State {
-    coord: Array<string> = new Array()
+    hitCoords: Array<string> = new Array()
     range: Array<string> = new Array()
     vessels: Array<Vessel> = new Array()
     rows = 10
@@ -46,8 +46,8 @@ export function addVessel(state: State, vessel: Vessel): State {
 }
 
 export function fire(state: State, coord: string): State {
-    if(coord != "" && !state.coord.includes(coord) && state.inRange(coord)) {
-        state.coord.push(coord)
+    if(coord != "" && !state.hitCoords.includes(coord) && state.inRange(coord)) {
+        state.hitCoords.push(coord)
         let hitFlag = false
         state.vessels.forEach( v => {
             const il = v.coord.length
@@ -66,7 +66,7 @@ export function fire(state: State, coord: string): State {
     return state
 }
 
-function getVesselCoords(state: State, length: number): Array<string> {
+export function getVesselCoords(state: State, length: number): Array<string> {
     const coords = new Array()
     const col = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     if(getRandomInt(2) === 0) {

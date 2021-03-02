@@ -9,15 +9,15 @@ test("Fire returns a state", () => {
 test("State stores coords", () => {
     const testState = new battleships.State()
     const outState = new battleships.State()
-    outState.coord.push("A1")
+    outState.hitCoords.push("A1")
     expect(battleships.fire(testState,"A1")).toStrictEqual(outState)
 })
 
 test("Fire will not add repeat coords", () => {
     const testState = new battleships.State()
     const outState = new battleships.State()
-    testState.coord.push("A1")
-    outState.coord.push("A1")
+    testState.hitCoords.push("A1")
+    outState.hitCoords.push("A1")
     expect(battleships.fire(testState, "A1")).toStrictEqual(outState)
 })
 
@@ -45,12 +45,17 @@ test("addVessel will not add a vessel that intersects an existing vessel", () =>
     expect(battleships.addVessel(testState, newVessel)).toStrictEqual(outState)
 })
 
+test("getVesselCoords returns an array of coordinates of the ship length", () => {
+    const testState = new battleships.State()
+    expect(battleships.getVesselCoords(testState, 4).length).toEqual(4)
+})
+
 test("fire on an unoccupied square will not change the state", () => {
     const testState = new battleships.State()
     const outState = new battleships.State()
     const testVessel = new battleships.Vessel(["A1", "A2", "A3"])
     outState.vessels.push(testVessel)
-    outState.coord.push("A4")
+    outState.hitCoords.push("A4")
     testState.vessels.push(testVessel)
     expect(battleships.fire(testState, "A4")).toStrictEqual(outState)
 })
@@ -61,7 +66,7 @@ test("fire on an occupied square will remove the coordinate from the vessel", ()
     const testVessel = new battleships.Vessel(["A1", "A2", "A3"])
     testState.vessels.push(testVessel)
     outState.vessels.push(new battleships.Vessel(["A2", "A3"]))
-    outState.coord.push("A1")
+    outState.hitCoords.push("A1")
     expect(battleships.fire(testState, "A1")).toStrictEqual(outState)
 })
 
@@ -69,7 +74,7 @@ test("firing on the last square of a vessel will remove it from the state", () =
     const testState = new battleships.State()
     const outState = new battleships.State()
     testState.vessels.push(new battleships.Vessel(["A1"]))
-    outState.coord.push("A1")
+    outState.hitCoords.push("A1")
     expect(battleships.fire(testState, "A1")).toStrictEqual(outState)
 })
 
