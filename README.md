@@ -1,5 +1,5 @@
 # TDD-Battleships
-This version was written based upon Test Driven Design philosophy
+This version was written based upon Test Driven Design methodology.
 
 ## Compiling
 In the terminal, whilst in the folder run command `npm run tsc`. This will generate two .js files.
